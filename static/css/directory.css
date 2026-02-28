@@ -1,0 +1,494 @@
+.directory-view [hidden] {
+  display: none !important;
+}
+
+.directory-view .dir-header .btn,
+.directory-view .dir-header summary.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.directory-view.is-editing {
+  padding-bottom: calc(4.2rem + env(safe-area-inset-bottom));
+}
+
+.directory-view.is-editing .col-select {
+  display: table-cell;
+}
+
+.directory-view.is-editing .dir-select-all-label,
+.directory-view.is-editing .dir-select-checkbox {
+  display: inline-flex;
+}
+
+.directory-view.is-editing .file-table thead th.col-select,
+.directory-view.is-editing .file-table td.col-select {
+  width: 2.35rem;
+  padding-right: 0.35rem;
+}
+
+.directory-view.is-editing .file-table thead th.col-name,
+.directory-view.is-editing .file-table td.col-name {
+  padding-left: 0.4rem;
+}
+
+.directory-view.is-editing .file-table tbody tr {
+  cursor: pointer;
+}
+
+.directory-view.is-editing .file-table tbody tr.is-selected {
+  background: color-mix(in srgb, var(--ctp-blue) 24%, var(--surface2)) !important;
+}
+
+.directory-view.is-editing .file-table tbody tr.is-selected:hover {
+  background: color-mix(in srgb, var(--ctp-blue) 32%, var(--surface2)) !important;
+}
+
+.directory-view.is-editing .file-table tbody tr.is-selected .entry-link {
+  color: var(--header-fg);
+}
+
+.dir-selection-banner {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1150;
+  padding: 0.75rem max(1.25rem, env(safe-area-inset-right)) calc(0.75rem + env(safe-area-inset-bottom)) max(1.25rem, env(safe-area-inset-left));
+  background: color-mix(in srgb, var(--surface) 88%, black 12%);
+  box-shadow: 0 -2px 0 rgba(0, 0, 0, 1);
+}
+
+.dir-selection-banner-inner {
+  width: 100%;
+  max-width: 1600px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dir-selection-banner-count {
+  width: 100%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 2.8rem;
+  padding: 0.6rem 1rem;
+  border-radius: calc(var(--radius) + 2px);
+  background: color-mix(in srgb, var(--ctp-mauve) 18%, var(--surface2));
+  color: var(--text);
+  font-size: 0.98rem;
+  font-weight: 800;
+  box-shadow: var(--shadow-surface);
+}
+
+.col-select {
+  display: none;
+  width: 3.25rem;
+  text-align: center;
+}
+
+.dir-select-all-label,
+.dir-select-checkbox {
+  display: none;
+}
+
+.dir-select-all-label {
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.dir-select-checkbox,
+.dir-select-all-label input {
+  width: 1.15rem;
+  height: 1.15rem;
+  margin: 0;
+  accent-color: var(--ctp-blue);
+  cursor: pointer;
+}
+
+.directory-view.is-editing .col-name {
+  width: 62%;
+}
+
+.jotes-directory-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1250;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: max(1rem, env(safe-area-inset-top)) max(1rem, env(safe-area-inset-right)) max(1rem, env(safe-area-inset-bottom)) max(1rem, env(safe-area-inset-left));
+  background: rgba(17, 17, 27, 0.62);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.jotes-directory-dialog {
+  width: min(34rem, 100%);
+  max-height: min(85vh, 46rem);
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  color: var(--text);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--shadow-surface);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  overflow: hidden;
+}
+
+.jotes-directory-dialog--wide {
+  width: min(42rem, 100%);
+}
+
+.jotes-directory-dialog-header {
+  display: grid;
+  gap: 0.55rem;
+}
+
+.jotes-directory-dialog-title {
+  margin: 0;
+  color: var(--header-fg);
+  font-size: 1.24rem;
+  line-height: 1.2;
+}
+
+.jotes-directory-dialog-copy {
+  margin: 0;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+.jotes-directory-dialog-form {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: grid;
+  gap: 0.95rem;
+  overflow: visible;
+  padding: 0.2rem 0.3rem 0.35rem;
+}
+
+.jotes-directory-field {
+  display: grid;
+  gap: 0.45rem;
+}
+
+.jotes-directory-field--search {
+  position: relative;
+}
+
+.jotes-directory-label {
+  color: var(--text);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.jotes-directory-input {
+  width: 100%;
+  min-height: 2.8rem;
+  padding: 0.7rem 0.85rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--surface2);
+  color: var(--text);
+  box-shadow: var(--shadow-surface);
+  box-sizing: border-box;
+  font: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  background-clip: padding-box;
+}
+
+.jotes-directory-input::placeholder {
+  color: var(--text-muted);
+}
+
+.jotes-directory-input:focus {
+  outline: none;
+  box-shadow: var(--shadow-surface), inset 0 0 0 2px var(--ctp-blue);
+}
+
+.jotes-directory-file-input {
+  width: 100%;
+  min-height: 2.8rem;
+  padding: 0.7rem 0.85rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--surface2);
+  color: var(--text);
+  box-shadow: var(--shadow-surface);
+  box-sizing: border-box;
+  font: inherit;
+}
+
+.jotes-directory-file-input::file-selector-button {
+  margin-right: 0.75rem;
+  padding: 0.4rem 0.85rem;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--accent);
+  color: var(--ctp-base);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+  box-shadow: var(--shadow-pop);
+}
+
+.jotes-directory-file-input:focus {
+  outline: none;
+  box-shadow: var(--shadow-surface), inset 0 0 0 2px var(--ctp-blue);
+}
+
+.jotes-directory-dialog-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: auto;
+  padding-top: 0.35rem;
+  background: transparent;
+  box-shadow: none;
+}
+
+.jotes-directory-selection-list {
+  margin: 0;
+  padding: 0.15rem 0.2rem 0.3rem;
+  list-style: none;
+  display: grid;
+  gap: 0.5rem;
+}
+
+.jotes-directory-selection-item {
+  padding: 0.6rem 0.8rem;
+  border-radius: var(--radius);
+  background: var(--ctp-crust);
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.92rem;
+  box-shadow: var(--shadow);
+  box-sizing: border-box;
+  overflow-wrap: anywhere;
+}
+
+.jotes-directory-selection-summary {
+  display: grid;
+  gap: 0.35rem;
+  max-height: 8.5rem;
+  padding: 0.85rem 0.95rem;
+  border-radius: calc(var(--radius) + 2px);
+  background: color-mix(in srgb, var(--surface2) 92%, black 8%);
+  box-shadow: var(--shadow-surface);
+  overflow: auto;
+  overflow-x: hidden;
+}
+
+.jotes-directory-selection-summary strong {
+  color: var(--header-fg);
+}
+
+.jotes-directory-destination-preview {
+  display: grid;
+  gap: 0.55rem;
+  max-height: none;
+  overflow: visible;
+}
+
+.jotes-directory-destination-preview[hidden] {
+  display: none;
+}
+
+.jotes-directory-move-arrow {
+  width: 2.35rem;
+  height: 2.35rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  border-radius: 999px;
+  background: var(--ctp-crust);
+  color: var(--ctp-blue);
+  font-size: 1.35rem;
+  line-height: 1;
+  box-shadow: var(--shadow);
+}
+
+.jotes-directory-move-arrow[hidden] {
+  display: none;
+}
+
+.jotes-directory-destination-card {
+  width: 100%;
+  display: block;
+}
+
+.jotes-directory-destination-path {
+  margin: 0;
+  font-size: 0.92rem;
+}
+
+.jotes-directory-results {
+  position: absolute;
+  top: calc(100% + 0.7rem);
+  left: 0;
+  right: 0;
+  z-index: 10;
+  display: grid;
+  gap: 0.5rem;
+  max-height: 16rem;
+  overflow: auto;
+  overflow-x: hidden;
+  padding: 0.45rem;
+  border-radius: calc(var(--radius) + 4px);
+  background: color-mix(in srgb, var(--surface) 92%, transparent);
+  box-shadow: var(--shadow-surface);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+}
+
+.jotes-directory-results[hidden] {
+  display: none;
+}
+
+.jotes-directory-result {
+  width: 100%;
+  display: block;
+  padding: 0.8rem 0.9rem;
+  border: none;
+  border-radius: calc(var(--radius) + 2px);
+  background: color-mix(in srgb, var(--surface2) 94%, black 6%);
+  color: var(--text);
+  text-align: left;
+  box-shadow: var(--shadow);
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.jotes-directory-result:hover {
+  transform: translateY(-1px);
+  background: color-mix(in srgb, var(--ctp-blue) 14%, var(--surface2));
+}
+
+.jotes-directory-result.is-selected {
+  background: color-mix(in srgb, var(--ctp-blue) 24%, var(--surface2));
+}
+
+.jotes-directory-result[disabled] {
+  opacity: 0.62;
+  cursor: not-allowed;
+}
+
+.jotes-directory-result[disabled]:hover {
+  transform: none;
+  background: color-mix(in srgb, var(--surface2) 94%, black 6%);
+}
+
+.jotes-directory-result-title {
+  color: var(--header-fg);
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
+.jotes-directory-result-path {
+  color: var(--text);
+  font-family: var(--font-mono);
+  font-size: 0.88rem;
+  display: block;
+  min-width: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.jotes-directory-result-relative,
+.jotes-directory-result-note,
+.jotes-directory-results-empty,
+.jotes-directory-loading {
+  color: var(--text-muted);
+  font-size: 0.86rem;
+}
+
+.jotes-directory-results-empty,
+.jotes-directory-loading {
+  padding: 0.85rem 0.2rem 0.2rem;
+}
+
+@media (max-width: 700px) {
+  .dir-selection-banner-count,
+  #dir-back-btn,
+  #dir-create-btn,
+  #dir-edit-btn,
+  #dir-rename-btn,
+  #dir-move-btn,
+  #dir-delete-btn,
+  #dir-cancel-btn,
+  #dir-settings > summary {
+    font-size: 0.92rem;
+  }
+
+  .directory-view.is-editing .file-table tbody tr {
+    position: relative;
+    display: block;
+    padding: 1rem 0.85rem;
+  }
+
+  .directory-view.is-editing .col-select {
+    display: flex;
+    position: absolute;
+    top: 0.85rem;
+    left: 0.85rem;
+    width: auto !important;
+    padding: 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .directory-view.is-editing .col-select[data-card-label]::before {
+    content: none;
+  }
+
+  .directory-view.is-editing .col-name {
+    width: 100% !important;
+    text-align: center;
+    margin-bottom: 0.3rem;
+    padding: 0.3rem 0;
+    transform: none;
+  }
+
+  .directory-view.is-editing .col-name .entry-link {
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .directory-view.is-editing .col-mtime {
+    display: block;
+    width: 100% !important;
+    text-align: center;
+  }
+
+  .directory-view.is-editing .col-actions {
+    width: 100% !important;
+    margin-top: 0.45rem;
+  }
+
+  .jotes-directory-dialog,
+  .jotes-directory-dialog--wide {
+    width: 100%;
+    max-height: min(88vh, 48rem);
+    padding: 1rem;
+  }
+
+  .jotes-directory-dialog-actions .btn {
+    width: 100%;
+  }
+
+  .jotes-directory-dialog-actions {
+    justify-content: stretch;
+  }
+}

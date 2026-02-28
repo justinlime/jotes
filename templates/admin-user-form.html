@@ -1,0 +1,50 @@
+{{define "content"}}
+<section class="settings-shell settings-shell--narrow admin-settings-shell">
+  <div class="settings-page-header settings-page-header--centered">
+    <div>
+      <p class="auth-eyebrow">Admin settings</p>
+      <h1 class="settings-title">{{if .IsEdit}}Edit user{{else}}Create user{{end}}</h1>
+      <p class="settings-copy">{{if .IsEdit}}Update account details, permissions, and password for this user.{{else}}Create a new account that can sign in to Jotes.{{end}}</p>
+    </div>
+  </div>
+
+  {{if .NoticeMessage}}
+  <div class="form-notice" data-jotes-toast-message="{{.NoticeMessage}}" data-jotes-toast-kind="success">{{.NoticeMessage}}</div>
+  {{end}}
+  {{if .ErrorMessage}}
+  <div class="form-error">{{.ErrorMessage}}</div>
+  {{end}}
+
+  <div class="auth-card settings-form-card">
+    <form
+      class="stack-form"
+      method="post"
+      action="{{.FormAction}}"
+      data-jotes-confirm-submit="true"
+      data-jotes-confirm-title="{{if .IsEdit}}Save account changes?{{else}}Create this account?{{end}}"
+      data-jotes-confirm-message="{{if .IsEdit}}Confirm the changes to this account before saving them.{{else}}Confirm that you want to create this account.{{end}}"
+      data-jotes-confirm-confirm-label="{{if .IsEdit}}Save changes{{else}}Create user{{end}}"
+      data-jotes-confirm-cancel-label="Cancel"
+      data-jotes-confirm-kind="success"
+    >
+      <label class="form-field" for="admin-user-username">
+        <span class="form-label">Username</span>
+        <input class="form-input" id="admin-user-username" name="username" type="text" value="{{.TargetUsername}}" autocomplete="username" required />
+      </label>
+      <label class="form-field" for="admin-user-password">
+        <span class="form-label">{{if .IsEdit}}New password{{else}}Password{{end}}</span>
+        <input class="form-input" id="admin-user-password" name="password" type="password" autocomplete="new-password" {{if not .IsEdit}}required{{end}} />
+        <span class="form-help">{{.PasswordHelp}}</span>
+      </label>
+      <label class="form-checkbox" for="admin-user-is-admin">
+        <input id="admin-user-is-admin" name="is_admin" type="checkbox" value="1" {{if .TargetIsAdmin}}checked{{end}} />
+        <span>Grant administrator access</span>
+      </label>
+      <div class="settings-actions settings-actions--centered">
+        <button class="btn btn-primary" type="submit">{{.SubmitLabel}}</button>
+        <a class="btn btn-secondary" href="{{.CancelURL}}">Cancel</a>
+      </div>
+    </form>
+  </div>
+</section>
+{{end}}

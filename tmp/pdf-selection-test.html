@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="/static/css/pdf-preview.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 1rem;
+      background: #1e1e2e;
+      color: #cdd6f4;
+      font-family: sans-serif;
+    }
+  </style>
+</head>
+<body>
+  <section
+    class="pdf-preview-shell"
+    data-pdf-preview-root="1"
+    data-pdf-url="/tmp/pdf-selection-test.pdf"
+    data-pdf-file-name="pdf-selection-test.pdf"
+    data-pdf-worker-url="/static/pdfjs/pdf.worker.mjs"
+    data-pdf-cmap-url="/static/pdfjs/cmaps/"
+    data-pdf-standard-font-url="/static/pdfjs/standard_fonts/"
+    aria-label="Read-only PDF preview"
+  >
+    <div class="pdf-preview-toolbar">
+      <p class="pdf-preview-status" data-pdf-preview-status>Loading PDF preview…</p>
+      <p class="pdf-preview-meta" data-pdf-preview-meta hidden></p>
+    </div>
+    <div class="pdf-preview-pages" data-pdf-preview-pages></div>
+  </section>
+  <script src="/static/js/pdf-preview.js"></script>
+</body>
+</html>

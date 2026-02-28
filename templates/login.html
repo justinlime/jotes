@@ -1,0 +1,31 @@
+{{define "content"}}
+<section class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-card-header">
+      <p class="auth-eyebrow">Protected notes</p>
+      <h1 class="auth-title">Sign in to Jotes</h1>
+      <p class="auth-copy">You need an account before you can browse, preview, or edit any notes.</p>
+    </div>
+
+    {{if .NoticeMessage}}
+    <div class="form-notice">{{.NoticeMessage}}</div>
+    {{end}}
+    {{if .ErrorMessage}}
+    <div class="form-error">{{.ErrorMessage}}</div>
+    {{end}}
+
+    <form class="stack-form" method="post" action="/jotes/login">
+      <input type="hidden" name="next" value="{{.Next}}" />
+      <label class="form-field" for="login-username">
+        <span class="form-label">Username</span>
+        <input class="form-input" id="login-username" name="username" type="text" value="{{.Username}}" autocomplete="username" required />
+      </label>
+      <label class="form-field" for="login-password">
+        <span class="form-label">Password</span>
+        <input class="form-input" id="login-password" name="password" type="password" autocomplete="current-password" required />
+      </label>
+      <button class="btn btn-primary auth-submit" type="submit">Sign in</button>
+    </form>
+  </div>
+</section>
+{{end}}

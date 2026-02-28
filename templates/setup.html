@@ -1,0 +1,34 @@
+{{define "content"}}
+<section class="auth-shell">
+  <div class="auth-card">
+    <div class="auth-card-header">
+      <p class="auth-eyebrow">First-time setup</p>
+      <h1 class="auth-title">Create the first administrator</h1>
+      <p class="auth-copy">No Jotes accounts exist yet. Create the initial administrator account to unlock the notes library and user management.</p>
+    </div>
+
+    {{if .NoticeMessage}}
+    <div class="form-notice">{{.NoticeMessage}}</div>
+    {{end}}
+    {{if .ErrorMessage}}
+    <div class="form-error">{{.ErrorMessage}}</div>
+    {{end}}
+
+    <form class="stack-form" method="post" action="/jotes/setup">
+      <label class="form-field" for="setup-username">
+        <span class="form-label">Admin username</span>
+        <input class="form-input" id="setup-username" name="username" type="text" value="{{.Username}}" autocomplete="username" required />
+      </label>
+      <label class="form-field" for="setup-password">
+        <span class="form-label">Password</span>
+        <input class="form-input" id="setup-password" name="password" type="password" autocomplete="new-password" required />
+      </label>
+      <label class="form-field" for="setup-password-confirm">
+        <span class="form-label">Confirm password</span>
+        <input class="form-input" id="setup-password-confirm" name="password_confirm" type="password" autocomplete="new-password" required />
+      </label>
+      <button class="btn btn-primary auth-submit" type="submit">Create administrator</button>
+    </form>
+  </div>
+</section>
+{{end}}

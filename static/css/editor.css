@@ -1,0 +1,374 @@
+/* ============================================================
+   Jotes editor styles
+   ======================================================== */
+
+.editor-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: nowrap;
+}
+
+.editor-header-right {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  flex-wrap: nowrap;
+  margin-left: auto;
+}
+
+.editor-settings {
+  position: static;
+  margin: 0;
+}
+
+.editor-settings-summary {
+  appearance: none;
+  list-style: none;
+  margin: 0;
+}
+
+.editor-settings-summary::-webkit-details-marker {
+  display: none;
+}
+
+.editor-settings[open] > .editor-settings-summary {
+  background: var(--ctp-sapphire);
+  border-color: var(--ctp-sapphire);
+  color: var(--ctp-base);
+}
+
+.editor-settings-panel {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  z-index: 1401;
+  width: min(28rem, calc(100vw - 2rem));
+  max-height: calc(100vh - 2rem);
+  display: grid;
+  gap: 0.85rem;
+  padding: 1rem;
+  background: color-mix(in srgb, var(--surface) 90%, transparent);
+  border: 1px solid var(--border);
+  border-radius: calc(var(--radius) + 6px);
+  box-shadow: var(--shadow-surface);
+  backdrop-filter: blur(14px) saturate(130%);
+  -webkit-backdrop-filter: blur(14px) saturate(130%);
+  overflow: auto;
+  transform: translate(-50%, -50%);
+}
+
+.editor-settings-group {
+  margin: 0;
+  padding: 0;
+  border: none;
+  display: grid;
+  gap: 0.55rem;
+}
+
+.editor-settings-legend {
+  margin-bottom: 0.15rem;
+  padding: 0;
+  color: var(--text);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.editor-settings-option {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  color: var(--text);
+  font-size: 0.96rem;
+  cursor: pointer;
+}
+
+.editor-settings-option input {
+  margin: 0;
+  accent-color: var(--accent);
+}
+
+.editor-header .btn,
+.editor-header .editor-view-toggle-btn {
+  box-sizing: border-box;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+.editor-view-toggle {
+  display: inline-flex;
+  align-items: center;
+}
+
+.editor-view-toggle-btn {
+  appearance: none;
+  min-width: 6.75rem;
+  line-height: inherit;
+}
+
+.editor-view-toggle-btn.is-plain {
+  background: var(--accent);
+  color: var(--ctp-base);
+  border-color: var(--accent);
+}
+
+.editor-view-toggle-btn.is-plain:hover {
+  background: var(--ctp-pink);
+  color: var(--ctp-base);
+  border-color: var(--ctp-pink);
+}
+
+.editor-view-toggle-btn.is-rendered {
+  background: var(--ctp-teal);
+  color: var(--ctp-base);
+  border-color: var(--ctp-teal);
+}
+
+.editor-view-toggle-btn.is-rendered:hover {
+  background: var(--ctp-green);
+  color: var(--ctp-base);
+  border-color: var(--ctp-green);
+}
+
+.editor-shell {
+  background: var(--code-bg);
+  border-radius: calc(var(--radius) + 2px);
+  box-shadow: var(--shadow-surface);
+  overflow: hidden;
+}
+
+body.jotes-page--editor .editor-shell {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  min-height: 0;
+}
+
+.editor-panel {
+  min-height: 68vh;
+}
+
+body.jotes-page--editor .editor-panel {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+body.jotes-page--editor .editor-panel--rendered {
+  padding: 0;
+}
+
+body.jotes-page--editor .editor-panel[hidden] {
+  display: none !important;
+}
+
+.editor-surface {
+  min-height: 68vh;
+}
+
+body.jotes-page--editor .editor-surface {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.editor-surface > .cm-editor {
+  min-height: 68vh;
+  background: var(--code-bg);
+}
+
+body.jotes-page--editor .editor-surface > .cm-editor {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+.editor-surface .cm-scroller {
+  font-size: 1rem;
+  line-height: 1.4;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body.jotes-page--editor .editor-surface .cm-scroller {
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  padding-bottom: 1.25rem;
+}
+
+.editor-surface .cm-gutters {
+  background: transparent;
+  border-right: none;
+}
+
+/* Match the read-only CodeMirror preview inset so the editable view starts at the same horizontal rhythm. */
+.editor-surface .cm-line {
+  padding: 0 1rem;
+}
+
+.editor-surface .cm-gutterElement {
+  padding: 0 1rem 0 0.75rem;
+}
+
+.editor-surface .cm-focused {
+  outline: none;
+}
+
+.editor-render-output {
+  min-height: 68vh;
+}
+
+body.jotes-page--editor .editor-render-output {
+  flex: 1 1 auto;
+  min-height: 0;
+}
+
+body.jotes-page--editor .editor-render-output.rendered-preview,
+body.jotes-page--editor .editor-render-output.text-preview {
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+/* Rendered Markdown/Org in editor uses Inter (same as file preview page) */
+.editor-render-output.rendered-preview {
+  font-family: var(--font-sans);
+}
+
+body.jotes-page--editor .editor-render-output.rendered-preview {
+  overflow: auto;
+  padding-bottom: 1.75rem;
+  scrollbar-gutter: stable;
+}
+
+/* Read-only CodeMirror previews for non-Markdown/Org editor renders use FiraCode. */
+.editor-render-output.text-preview {
+  font-family: var(--font-mono);
+}
+
+.editor-render-output.text-preview.codemirror-preview-root {
+  padding: 0;
+  overflow: hidden;
+}
+
+body.jotes-page--editor .editor-render-output.text-preview.codemirror-preview-root {
+  display: flex;
+  overflow: hidden;
+}
+
+.editor-render-output.text-preview.codemirror-preview-root > .cm-editor {
+  min-height: 68vh;
+  background: var(--code-bg);
+}
+
+body.jotes-page--editor .editor-render-output.text-preview.codemirror-preview-root > .cm-editor {
+  display: flex;
+  flex: 1 1 auto;
+  min-height: 0;
+  border-radius: 0;
+}
+
+.editor-render-output.text-preview.codemirror-preview-root .cm-scroller {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  line-height: 1.4;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body.jotes-page--editor .editor-render-output.text-preview.codemirror-preview-root .cm-scroller {
+  min-height: 0;
+  box-sizing: border-box;
+  overflow: auto;
+  padding-bottom: 1.25rem;
+}
+
+.editor-render-output.text-preview.codemirror-preview-root .cm-gutters {
+  background: transparent;
+  border-right: none;
+}
+
+.editor-render-output.text-preview.codemirror-preview-root .cm-activeLine,
+.editor-render-output.text-preview.codemirror-preview-root .cm-activeLineGutter {
+  background: transparent;
+}
+
+.editor-render-output .editor-render-empty,
+.editor-render-output .render-preview-error {
+  color: var(--text-muted);
+  font-size: 1rem;
+}
+
+#editor-save-btn[disabled] {
+  opacity: 0.7;
+  cursor: progress;
+}
+
+@media (max-width: 900px) {
+  .editor-header {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.4rem;
+    align-items: stretch;
+  }
+
+  .editor-header > .btn,
+  .editor-settings,
+  .editor-settings > summary,
+  .editor-view-toggle,
+  .editor-header-right > .btn {
+    width: 100%;
+  }
+
+  .editor-header-right {
+    display: contents;
+    margin-left: 0;
+  }
+
+  .editor-settings[open] {
+    grid-column: 1 / -1;
+  }
+
+  .editor-view-toggle-btn {
+    width: 100%;
+    min-width: 0;
+    text-align: center;
+  }
+
+  .editor-settings-panel {
+    min-width: 0;
+    width: min(28rem, calc(100vw - 2rem));
+    margin-top: 0;
+  }
+
+  .editor-panel,
+  .editor-surface,
+  .editor-render-output {
+    min-height: 58vh;
+  }
+
+  .editor-surface > .cm-editor,
+  .editor-render-output.text-preview.codemirror-preview-root > .cm-editor {
+    min-height: 58vh;
+  }
+
+  .editor-surface .cm-scroller,
+  .editor-render-output.text-preview.codemirror-preview-root .cm-scroller {
+    font-size: 0.9rem;
+  }
+
+  .editor-render-output {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .editor-render-output.rendered-preview {
+    padding: 1rem 1.15rem;
+  }
+}

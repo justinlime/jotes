@@ -1,0 +1,61 @@
+{{define "content"}}
+<section class="settings-shell admin-settings-shell">
+  <div class="settings-page-header settings-page-header--centered">
+    <div>
+      <p class="auth-eyebrow">Admin settings</p>
+      <h1 class="settings-title">User management</h1>
+      <p class="settings-copy">Create, edit, and remove Jotes accounts. At least one administrator must always remain.</p>
+    </div>
+    <div class="settings-actions settings-actions--centered">
+      <a class="btn btn-primary" href="/jotes/admin/users/new">Create user</a>
+    </div>
+  </div>
+
+  {{if .NoticeMessage}}
+  <div class="form-notice" data-jotes-toast-message="{{.NoticeMessage}}" data-jotes-toast-kind="success">{{.NoticeMessage}}</div>
+  {{end}}
+  {{if .ErrorMessage}}
+  <div class="form-error">{{.ErrorMessage}}</div>
+  {{end}}
+
+  <div class="admin-user-list">
+    {{range .Users}}
+    <article class="admin-user-card">
+      <div class="admin-user-main">
+        <img class="admin-user-avatar" src="{{avatarDataURI .Username}}" alt="{{.Username}} avatar" />
+        <div class="admin-user-meta">
+          <div class="admin-user-row">
+            <h2 class="admin-user-name">{{.Username}}</h2>
+            {{if .IsAdmin}}<span class="admin-user-badge">Admin</span>{{end}}
+            {{if .IsCurrentUser}}<span class="admin-user-badge admin-user-badge--current">You</span>{{end}}
+          </div>
+          <dl class="admin-user-details">
+            <div><dt>Created</dt><dd>{{.CreatedAt.Format "2006-01-02 15:04"}}</dd></div>
+            <div><dt>Updated</dt><dd>{{.UpdatedAt.Format "2006-01-02 15:04"}}</dd></div>
+          </dl>
+        </div>
+      </div>
+      <div class="admin-user-actions">
+        <a class="btn btn-primary" href="/jotes/admin/users/{{.ID}}">Edit</a>
+        <form
+          method="post"
+          action="/jotes/admin/users/{{.ID}}/delete"
+          data-jotes-confirm-submit="true"
+          data-jotes-confirm-title="Delete account?"
+          data-jotes-confirm-message="Delete {{.Username}}? This action cannot be undone."
+          data-jotes-confirm-confirm-label="Delete account"
+          data-jotes-confirm-cancel-label="Keep account"
+          data-jotes-confirm-kind="danger"
+        >
+          <button class="btn btn-back" type="submit">Delete</button>
+        </form>
+      </div>
+    </article>
+    {{else}}
+    <div class="info-card empty-state-card">
+      <div class="empty-state-copy">No users were found in the database.</div>
+    </div>
+    {{end}}
+  </div>
+</section>
+{{end}}

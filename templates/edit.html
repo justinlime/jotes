@@ -1,0 +1,99 @@
+{{define "head_extra"}}
+  <link rel="stylesheet" href="/static/css/editor.css">
+{{end}}
+
+{{define "body_attrs"}} class="jotes-page--editor"{{end}}
+
+{{define "content"}}
+<nav class="breadcrumbs" aria-label="breadcrumb">
+  {{range $i, $crumb := .Breadcrumbs}}
+    <span class="breadcrumb-item">
+      {{if $i}}<span class="sep">/</span>{{end}}
+      {{if and (eq $i (add (len $.Breadcrumbs) -1)) (gt $i 0)}}
+        <span class="crumb current">{{$crumb.Name}}</span>
+      {{else}}
+        <a class="crumb" href="{{$crumb.Path}}">{{$crumb.Name}}</a>
+      {{end}}
+    </span>
+  {{end}}
+</nav>
+
+<div class="editor-header">
+  <a class="btn btn-back" href="{{.BackURL}}">Back</a>
+  <div class="editor-header-right">
+    <details class="editor-settings" id="editor-settings">
+      <summary class="btn btn-blue editor-settings-summary">Settings</summary>
+      <div class="settings-modal-backdrop" aria-hidden="true"></div>
+      <div class="editor-settings-panel">
+        <fieldset class="editor-settings-group">
+          <legend class="editor-settings-legend">Keymap</legend>
+          <label class="editor-settings-option" for="editor-setting-keymap-default">
+            <input id="editor-setting-keymap-default" type="radio" name="editor-setting-keymap" value="default" checked>
+            <span>Default</span>
+          </label>
+          <label class="editor-settings-option" for="editor-setting-keymap-vim">
+            <input id="editor-setting-keymap-vim" type="radio" name="editor-setting-keymap" value="vim">
+            <span>Vim</span>
+          </label>
+        </fieldset>
+
+        <fieldset class="editor-settings-group">
+          <legend class="editor-settings-legend">Display</legend>
+          <label class="editor-settings-option" for="editor-setting-line-wrapping">
+            <input id="editor-setting-line-wrapping" type="checkbox" checked>
+            <span>Line wrapping</span>
+          </label>
+          <label class="editor-settings-option" for="editor-setting-line-numbers">
+            <input id="editor-setting-line-numbers" type="checkbox">
+            <span>Line numbers</span>
+          </label>
+        </fieldset>
+        <button class="btn btn-back settings-modal-back" type="button">Back</button>
+      </div>
+    </details>
+
+    <div class="editor-view-toggle">
+      <button class="btn editor-view-toggle-btn is-plain" id="editor-view-toggle-btn" type="button" aria-controls="editor-panel-plain editor-panel-rendered" aria-pressed="false">Rendered</button>
+    </div>
+
+    <button class="btn btn-success" id="editor-save-btn" type="button">Save</button>
+  </div>
+</div>
+
+<div
+  class="editor-shell"
+  id="editor-root"
+  data-file-path="{{.FilePath}}"
+  data-mime-type="{{.MIMEType}}"
+  data-save-url="{{.SaveURL}}"
+  data-render-url="{{.RenderURL}}"
+  data-image-upload-url="{{.ImageUploadURL}}"
+  data-render-mode="{{.RenderMode}}"
+  data-revision="{{.Revision}}"
+  data-active-mode="plain"
+>
+  <section class="editor-panel editor-panel--plain is-active" id="editor-panel-plain" data-panel="plain" aria-label="Plaintext editor panel">
+    <div class="editor-surface" id="editor-surface" aria-label="Plaintext note content"></div>
+  </section>
+
+  <section class="editor-panel editor-panel--rendered" id="editor-panel-rendered" data-panel="rendered" aria-label="Rendered preview panel" hidden>
+    {{if eq .RenderMode "document"}}
+    <!-- Rich rendered document content uses .rendered-preview. -->
+    <div class="rendered-preview editor-render-output{{if or (eq .MIMEType "text/markdown") (eq .MIMEType "text/x-org")}} rendered-preview--markdown-org{{end}}" id="editor-render-output">{{.RenderedContent}}</div>
+    {{else}}
+    <!-- Read-only CodeMirror previews render non-Markdown/Org text files during editing. -->
+    <div
+      class="text-preview editor-render-output codemirror-preview-root"
+      id="editor-render-output"
+      aria-label="Read-only note preview"
+    ></div>
+    {{end}}
+  </section>
+</div>
+
+<script id="editor-initial-document" type="application/json">{{toJSON .PlaintextContent}}</script>
+{{end}}
+
+{{define "body_end"}}
+  <script src="/static/js/editor.js"></script>
+{{end}}

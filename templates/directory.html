@@ -1,0 +1,121 @@
+{{define "head_extra"}}
+  <link rel="stylesheet" href="/static/css/directory.css">
+{{end}}
+
+{{define "content"}}
+<div class="directory-view{{if .IsRoot}} directory-view--root{{end}}" data-directory-view="true" data-current-path="{{.CurrentPath}}" data-has-entries="{{if .Entries}}true{{else}}false{{end}}">
+  <nav class="breadcrumbs" aria-label="breadcrumb">
+    {{range $i, $crumb := .Breadcrumbs}}
+      <span class="breadcrumb-item">
+        {{if $i}}<span class="sep">/</span>{{end}}
+        {{if eq $i (add (len $.Breadcrumbs) -1)}}
+          {{if eq $i 0}}
+            <a class="crumb" href="/">{{$crumb.Name}}</a>
+          {{else}}
+            <span class="crumb current">{{$crumb.Name}}</span>
+          {{end}}
+        {{else}}
+          <a class="crumb" href="{{$crumb.Path}}">{{$crumb.Name}}</a>
+        {{end}}
+      </span>
+    {{end}}
+  </nav>
+
+  <div class="dir-header">
+    <div class="dir-header-actions" id="dir-header-actions" data-visible-actions="{{if .IsRoot}}3{{else}}4{{end}}">
+      {{if not .IsRoot}}
+      <a class="btn btn-back dir-back-btn" id="dir-back-btn" href="{{(index .Breadcrumbs (add (len .Breadcrumbs) -2)).Path}}">Back</a>
+      {{end}}
+      <button class="btn btn-success" id="dir-create-btn" type="button">Create</button>
+      <button class="btn btn-primary" id="dir-edit-btn" type="button" {{if not .Entries}}disabled{{end}}>Edit</button>
+      <button class="btn btn-primary" id="dir-rename-btn" type="button" hidden disabled>Rename</button>
+      <button class="btn btn-success" id="dir-move-btn" type="button" hidden disabled>Move</button>
+      <button class="btn btn-back" id="dir-delete-btn" type="button" hidden disabled>Delete</button>
+      <button class="btn btn-warning" id="dir-cancel-btn" type="button" hidden>Cancel</button>
+      <details class="dir-settings" id="dir-settings">
+        <summary class="btn btn-blue dir-settings-summary">Settings</summary>
+        <div class="settings-modal-backdrop" aria-hidden="true"></div>
+        <div class="dir-settings-panel">
+          <fieldset class="dir-settings-group">
+            <legend class="dir-settings-legend">Display</legend>
+            <label class="dir-settings-option" for="dir-setting-view-auxiliary">
+              <input id="dir-setting-view-auxiliary" type="checkbox" checked>
+              <span>Show Auxiliary Files</span>
+            </label>
+            <label class="dir-settings-option" for="dir-setting-show-hidden">
+              <input id="dir-setting-show-hidden" type="checkbox">
+              <span>Show Hidden Files</span>
+            </label>
+            <label class="dir-settings-option" for="dir-setting-show-jotes">
+              <input id="dir-setting-show-jotes" type="checkbox">
+              <span>Show .jotes Folders</span>
+            </label>
+          </fieldset>
+          <button class="btn btn-back settings-modal-back" type="button">Back</button>
+        </div>
+      </details>
+    </div>
+  </div>
+
+  {{if .Entries}}
+  <table class="file-table" id="directory-table">
+    <thead>
+      <tr>
+        <th class="col-select" scope="col">
+          <label class="dir-select-all-label" for="dir-select-all">
+            <input id="dir-select-all" type="checkbox" aria-label="Select all visible entries">
+          </label>
+        </th>
+        <th scope="col">Name</th>
+        <th class="col-mtime" scope="col">Modified</th>
+        <th class="col-actions" scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      {{range .Entries}}
+      <tr class="{{if .IsDir}}row-dir{{else}}row-file{{end}}" data-entry-path="{{.Path}}" data-entry-name="{{.Name}}" data-entry-kind="{{if .IsDir}}directory{{else}}file{{end}}" data-entry-is-jotes-companion="{{if .IsJotesCompanion}}true{{else}}false{{end}}" data-entry-visibility-mask="{{.VisibilityMask}}">
+        <td class="col-select" data-card-label="Select">
+          <input class="dir-select-checkbox" type="checkbox" aria-label="Select {{.Name}}">
+        </td>
+        <td class="col-name" data-card-label="Name">
+          {{if .IsDir}}
+            <a href="{{.Path}}" class="entry-link dir-link">
+              <img src="/static/images/folder.svg" alt="" class="file-icon" />
+              <span class="entry-link-label">{{.Name}}/</span>
+            </a>
+          {{else}}
+            <a href="{{.Path}}" class="entry-link file-link">
+              <span class="entry-link-label">{{.Name}}</span>
+            </a>
+          {{end}}
+        </td>
+        <td class="col-mtime" data-card-label="Modified">{{.ModTime.Format "2006-01-02 15:04"}}</td>
+        <td class="col-actions" data-card-label="Actions">
+          <div class="action-group">
+            {{if .IsDir}}
+              <a class="btn btn-sm btn-secondary" href="{{.Path}}">Open</a>
+            {{else}}
+              <a class="btn btn-sm btn-secondary" href="{{.Path}}">Preview</a>
+            {{end}}
+          </div>
+        </td>
+      </tr>
+      {{end}}
+    </tbody>
+  </table>
+  <p class="empty-dir" id="dir-filter-empty" hidden>No entries are visible with the current directory filters.</p>
+  {{else}}
+  <p class="empty-dir">This folder is empty.</p>
+  {{end}}
+
+  <div class="dir-selection-banner" id="dir-selection-banner" hidden>
+    <div class="dir-selection-banner-inner">
+      <span class="dir-selection-banner-count" id="dir-selection-count">0 selected</span>
+    </div>
+  </div>
+</div>
+{{end}}
+
+{{define "body_end"}}
+  <script src="/static/js/directory.js"></script>
+{{end}}

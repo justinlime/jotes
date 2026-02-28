@@ -1,0 +1,37 @@
+{
+  "name": "jotes-editor-build",
+  "private": true,
+  "scripts": {
+    "build": "npm run build:editor && npm run build:pdf",
+    "build:editor": "esbuild frontend/editor/main.js --bundle --format=iife --platform=browser --target=es2020 --minify --outfile=static/js/editor.js",
+    "build:pdf": "rm -rf static/pdfjs && mkdir -p static/pdfjs && cp node_modules/pdfjs-dist/legacy/build/pdf.worker.mjs static/pdfjs/pdf.worker.mjs && cp node_modules/pdfjs-dist/LICENSE static/pdfjs/LICENSE && cp -R node_modules/pdfjs-dist/cmaps static/pdfjs/cmaps && cp -R node_modules/pdfjs-dist/standard_fonts static/pdfjs/standard_fonts && esbuild frontend/pdf/main.js --bundle --format=iife --platform=browser --target=es2020 --minify --outfile=static/js/pdf-preview.js"
+  },
+  "dependencies": {
+    "@catppuccin/codemirror": "^1.0.3",
+    "@codemirror/autocomplete": "6.19.0",
+    "@codemirror/commands": "6.10.3",
+    "@codemirror/lang-cpp": "6.0.3",
+    "@codemirror/lang-css": "6.3.1",
+    "@codemirror/lang-go": "6.0.1",
+    "@codemirror/lang-html": "6.4.11",
+    "@codemirror/lang-javascript": "6.2.5",
+    "@codemirror/lang-json": "6.0.2",
+    "@codemirror/lang-markdown": "6.5.0",
+    "@codemirror/lang-python": "6.2.1",
+    "@codemirror/lang-rust": "6.0.2",
+    "@codemirror/lang-sql": "6.10.0",
+    "@codemirror/lang-xml": "6.1.0",
+    "@codemirror/lang-yaml": "6.1.3",
+    "@codemirror/language": "6.12.3",
+    "@codemirror/legacy-modes": "6.5.2",
+    "@codemirror/search": "6.6.0",
+    "@codemirror/state": "6.6.0",
+    "@codemirror/view": "6.40.0",
+    "@lezer/highlight": "1.2.3",
+    "@replit/codemirror-vim": "6.3.0",
+    "pdfjs-dist": "5.7.284"
+  },
+  "devDependencies": {
+    "esbuild": "0.27.4"
+  }
+}

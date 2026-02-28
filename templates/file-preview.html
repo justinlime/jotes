@@ -1,0 +1,139 @@
+{{define "head_extra"}}
+  {{if .IsPDF}}
+  <link rel="stylesheet" href="/static/css/pdf-preview.css">
+  {{end}}
+{{end}}
+
+{{define "body_attrs"}} class="jotes-page--preview"{{end}}
+
+{{define "content"}}
+<nav class="breadcrumbs" aria-label="breadcrumb">
+  {{range $i, $crumb := .Breadcrumbs}}
+    <span class="breadcrumb-item">
+      {{if $i}}<span class="sep">/</span>{{end}}
+      {{if and (eq $i (add (len $.Breadcrumbs) -1)) (gt $i 0)}}
+        <span class="crumb current">{{$crumb.Name}}</span>
+      {{else}}
+        <a class="crumb" href="{{$crumb.Path}}">{{$crumb.Name}}</a>
+      {{end}}
+    </span>
+  {{end}}
+</nav>
+
+<div class="preview-header{{if .IsDir}}{{if .CanEdit}} preview-header--three-actions{{else}} preview-header--two-actions{{end}}{{else if .CanEdit}} preview-header--two-actions{{else}} preview-header--one-action{{end}}">
+  <div class="preview-header-actions">
+    {{if .IsDir}}
+      {{if gt (len .Breadcrumbs) 0}}
+      <a class="btn btn-back preview-header-back" href="{{(index .Breadcrumbs (add (len .Breadcrumbs) -1)).Path}}">Back</a>
+      {{end}}
+    {{else}}
+      {{if gt (len .Breadcrumbs) 1}}
+      <a class="btn btn-back preview-header-back" href="{{(index .Breadcrumbs (add (len .Breadcrumbs) -2)).Path}}">Back</a>
+      {{else if gt (len .Breadcrumbs) 0}}
+      <a class="btn btn-back preview-header-back" href="{{(index .Breadcrumbs 0).Path}}">Back</a>
+      {{end}}
+    {{end}}
+    {{if .CanEdit}}
+    <a class="btn btn-primary" href="/jotes/edit{{.FilePath}}">Edit</a>
+    {{end}}
+    {{if .IsDir}}
+    <a class="btn btn-secondary" href="{{.FilePath}}">Open folder</a>
+    {{end}}
+  </div>
+</div>
+
+<div class="preview-body{{if .IsText}} preview-body--text{{else if .IsPDF}} preview-body--pdf{{end}}">
+
+  {{if .IsDir}}
+  <div class="info-card">
+    <div class="info-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M3 7a2 2 0 0 1 2-2h3.172a2 2 0 0 1 1.414.586l1.828 1.828A2 2 0 0 0 12.828 8H19a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7z"/>
+      </svg>
+    </div>
+    <dl class="info-meta">
+      <div class="info-row"><dt>Path</dt>     <dd>{{.FilePath}}</dd></div>
+      <div class="info-row"><dt>Items</dt>    <dd>{{.EntryCount}}</dd></div>
+      <div class="info-row"><dt>Modified</dt> <dd>{{.ModTime.Format "2006-01-02 15:04:05"}}</dd></div>
+    </dl>
+  </div>
+  {{end}}
+
+  {{if .IsBinary}}
+  <div class="info-card">
+    <div class="info-icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+        <polyline points="14 2 14 8 20 8"/>
+        <line x1="12" y1="18" x2="12" y2="12"/>
+        <line x1="9"  y1="15" x2="15" y2="15"/>
+      </svg>
+    </div>
+    <dl class="info-meta">
+      <div class="info-row"><dt>Path</dt>     <dd>{{.FilePath}}</dd></div>
+      <div class="info-row"><dt>Type</dt>     <dd>{{.MIMEType}}</dd></div>
+      <div class="info-row"><dt>Modified</dt> <dd>{{.ModTime.Format "2006-01-02 15:04:05"}}</dd></div>
+    </dl>
+  </div>
+  {{end}}
+
+  {{if .IsImage}}
+  <div class="info-card info-card--inline">
+    <dl class="info-meta">
+      <div class="info-row"><dt>Type</dt>     <dd>{{.MIMEType}}</dd></div>
+      <div class="info-row"><dt>Modified</dt> <dd>{{.ModTime.Format "2006-01-02 15:04:05"}}</dd></div>
+    </dl>
+  </div>
+  <div class="image-preview">
+    <img src="{{.ViewURL}}" alt="{{.FileName}}" />
+  </div>
+  {{end}}
+
+  {{if .IsPDF}}
+  <section
+    class="pdf-preview-shell"
+    data-pdf-preview-root="1"
+    data-pdf-url="{{.ViewURL}}"
+    data-pdf-file-name="{{.FileName}}"
+    data-pdf-worker-url="/static/pdfjs/pdf.worker.mjs"
+    data-pdf-cmap-url="/static/pdfjs/cmaps/"
+    data-pdf-standard-font-url="/static/pdfjs/standard_fonts/"
+    aria-label="Read-only PDF preview"
+  >
+    <div class="pdf-preview-toolbar">
+      <p class="pdf-preview-status" data-pdf-preview-status>Loading PDF preview…</p>
+      <p class="pdf-preview-meta" data-pdf-preview-meta hidden></p>
+    </div>
+    <div class="pdf-preview-pages" data-pdf-preview-pages></div>
+  </section>
+  {{end}}
+
+  {{if .IsText}}
+    {{if eq .RenderMode "document"}}
+    <div class="rendered-preview{{if or (eq .MIMEType "text/markdown") (eq .MIMEType "text/x-org")}} rendered-preview--markdown-org{{end}}">
+      {{.RenderedContent}}
+    </div>
+    {{else if eq .RenderMode "codemirror"}}
+    <div
+      class="text-preview codemirror-preview-root"
+      data-codemirror-preview-root="1"
+      data-file-path="{{.FilePath}}"
+      data-mime-type="{{.MIMEType}}"
+      data-content-script-id="preview-initial-document"
+      aria-label="Read-only note preview"
+    ></div>
+    <script id="preview-initial-document" type="application/json">{{toJSON .PlaintextContent}}</script>
+    {{end}}
+  {{end}}
+
+</div>
+{{end}}
+
+{{define "body_end"}}
+  {{if and .IsText (eq .RenderMode "codemirror")}}
+  <script src="/static/js/editor.js"></script>
+  {{end}}
+  {{if .IsPDF}}
+  <script src="/static/js/pdf-preview.js"></script>
+  {{end}}
+{{end}}
